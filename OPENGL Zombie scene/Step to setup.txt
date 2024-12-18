@@ -1,0 +1,4 @@
+Create a folder called OpenGL under C:\Users\MHodg
+add the files needed from the Lab GitHub into OpenGL folder
+(installing GLM, glew, glfw)
+Add the dependencies
