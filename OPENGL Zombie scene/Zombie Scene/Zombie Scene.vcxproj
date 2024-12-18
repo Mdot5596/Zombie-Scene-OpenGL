@@ -133,8 +133,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Lab5.cpp" />
+    <ClCompile Include="LoadShaders.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LoadShaders.h" />
     <ClInclude Include="Main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
