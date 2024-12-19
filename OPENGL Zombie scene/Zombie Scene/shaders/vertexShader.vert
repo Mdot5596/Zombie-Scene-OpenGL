@@ -1,12 +1,16 @@
 #version 460
 //Triangle position with values retrieved from main.cpp
 layout (location = 0) in vec3 position;
-layout (location = 1) in vec3 aColor;
-out vec3 ourColor;
+//Texture coordinates from last stage
+layout (location = 1) in vec2 textureCoordinatesVertex;
 
-//Triangle vertices sent through gl_Position to next stage
+//Texture coordinates to send
+out vec2 textureCoordinatesFrag;
+
 void main()
 {
+    //Triangle vertices sent through gl_Position to next stage
     gl_Position = vec4(position.x, position.y, position.z, 1.0);
-    ourColor=aColor;
+    //Sending texture coordinates to next stage
+    textureCoordinatesFrag = textureCoordinatesVertex;
 }

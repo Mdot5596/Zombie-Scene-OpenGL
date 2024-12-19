@@ -22,7 +22,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LoadShaders.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files\shaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -30,7 +30,7 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="LoadShaders.h">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files\shaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
