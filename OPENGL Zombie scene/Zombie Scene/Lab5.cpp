@@ -58,9 +58,9 @@ int main()
 
 	float vertices[] = 
 	{
-	-0.5f, -0.5f, 0.0f, //pos 0 | x, y, z
-	0.5f, -0.5f, 0.0f, //pos 1
-	0.0f, 0.5f, 0.0f //pos 2
+	-0.5f, -0.5f, 0.0f,  1.0f,0.0f, 0.0f,//pos 0 | x, y, z
+	0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f, //pos 1
+	0.0f, 0.5f, 0.0f,     0.0f, 0.0f, 1.0f//pos 2
 	};
 
 
@@ -77,9 +77,11 @@ int main()
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
 	//Allocates vertex attribute memory for vertex shader
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	//Index of vertex attribute for vertex shader
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3*sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 	//Unbinding
 	glBindVertexArray(0);

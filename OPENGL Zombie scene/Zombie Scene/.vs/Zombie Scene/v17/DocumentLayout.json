@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\Lab5.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|solutionrelative:Lab5.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\shaders\\vertexShader.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|solutionrelative:shaders\\vertexShader.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\shaders\\fragmentShader.frag||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|solutionrelative:shaders\\fragmentShader.frag||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\Main.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|solutionrelative:Main.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\Lab5.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|solutionrelative:Lab5.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,6 +31,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "fragmentShader.frag",
+              "DocumentMoniker": "D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\shaders\\fragmentShader.frag",
+              "RelativeDocumentMoniker": "shaders\\fragmentShader.frag",
+              "ToolTip": "D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\shaders\\fragmentShader.frag",
+              "RelativeToolTip": "shaders\\fragmentShader.frag",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-12-19T11:46:07.741Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "vertexShader.vert",
+              "DocumentMoniker": "D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\shaders\\vertexShader.vert",
+              "RelativeDocumentMoniker": "shaders\\vertexShader.vert",
+              "ToolTip": "D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\shaders\\vertexShader.vert",
+              "RelativeToolTip": "shaders\\vertexShader.vert",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-12-19T11:44:52.059Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Main.h",
               "DocumentMoniker": "D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\Main.h",
               "RelativeDocumentMoniker": "Main.h",
@@ -30,17 +64,18 @@
               "RelativeToolTip": "Main.h",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-18T21:31:59.395Z"
+              "WhenOpened": "2024-12-18T21:31:59.395Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Lab5.cpp",
               "DocumentMoniker": "D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\Lab5.cpp",
               "RelativeDocumentMoniker": "Lab5.cpp",
               "ToolTip": "D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\Lab5.cpp",
               "RelativeToolTip": "Lab5.cpp",
-              "ViewState": "AgIAACQAAAAAAAAAAAAAAC4AAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAACkAAAAAAAAAAAAiwFEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-12-18T14:22:35.416Z",
               "EditorCaption": ""
