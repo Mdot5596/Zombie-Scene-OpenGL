@@ -25,6 +25,13 @@ mat4 model;
 mat4 view;
 mat4 projection;
 
+//camera variables
+vec3 cameraPosition = vec3(0.0f, 0.0f, 3.0f);
+vec3 cameraFront = vec3(0.0f, 0.0f, -1.0f);
+vec3 cameraUp = vec3(0.0f, 1.0f, 0.0f);
+
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
 
 //VAO vertex attribute positions in correspondence to vertex attribute type
 enum VAO_IDs { Triangles, Indices, Colours, Textures, NumVAOs = 2 };
@@ -158,6 +165,10 @@ int main()
     //Render loop
     while (glfwWindowShouldClose(window) == false)
     {
+        float currentFrame = static_cast<float>(glfwGetTime());
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
         //Input
         ProcessUserInput(window); //Takes user input
 
@@ -170,18 +181,16 @@ int main()
         model = scale(model, vec3(2.0f, 2.0f, 2.0f));
         model = rotate(model, (float)radians(-45.0f), vec3(1.0, 0.0, 0.0));
         model = translate(model, vec3(0.0f, 1.0f, -1.5f));
-        view = lookAt(vec3(0.0f, 0.0f, 3.0f), vec3(0.0f, 0.0f, 2.0f), vec3(0.0f, 1.0f, 0.0f));
+        view = lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
         projection = perspective(radians(45.0f), (float)windowWidth / (float)(windowHeight), 0.1f, 100.0f);
         
         //transofrm(rotation)
         mat4 transform = mat4(1.0f);
-        transform = rotate(transform, (float)glfwGetTime(), vec3(0.0f, 0.0f, 1.0f));
+       // transform = rotate(transform, (float)glfwGetTime(), vec3(0.0f, 0.0f, 1.0f));
         transform = scale(transform, vec3(0.5f, 0.5f, 0.5f));
         GLint transformIndex = glGetUniformLocation(program, "transformIn");
         glUniformMatrix4fv(transformIndex, 1, GL_FALSE, value_ptr(transform));
-
-
-
+        //mvp tpye shit
         mat4 mvp = projection * view * model;
         int mvpLoc = glGetUniformLocation(program, "mvpIn");
         glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, value_ptr(mvp));
@@ -211,9 +220,31 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 void ProcessUserInput(GLFWwindow* WindowIn)
 {
+    const float movementSpeed = 1.0f * deltaTime;
     //Closes window on 'exit' key press
     if (glfwGetKey(WindowIn, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     {
         glfwSetWindowShouldClose(WindowIn, true);
+    }
+
+    if (glfwGetKey(WindowIn, GLFW_KEY_W) == GLFW_PRESS)
+    {
+        cout << "W was pressed" << endl;
+        cameraPosition += movementSpeed * cameraFront;
+    }
+    if (glfwGetKey(WindowIn, GLFW_KEY_S) == GLFW_PRESS)
+    {
+        cout << "S was pressed" << endl;
+        cameraPosition -= movementSpeed * cameraFront;
+    }
+    if (glfwGetKey(WindowIn, GLFW_KEY_A) == GLFW_PRESS)
+    {
+        cout << "A was pressed" << endl;
+        cameraPosition -= normalize(cross(cameraFront, cameraUp)) * movementSpeed;
+    }
+    if (glfwGetKey(WindowIn, GLFW_KEY_D) == GLFW_PRESS)
+    {
+        cout << "D was pressed" << endl;
+        cameraPosition += normalize(cross(cameraFront, cameraUp)) * movementSpeed;
     }
 }
