@@ -7,10 +7,12 @@ layout (location = 1) in vec2 textureCoordinatesVertex;
 //Texture coordinates to send
 out vec2 textureCoordinatesFrag;
 
+uniform mat4 transformIn;
+
 void main()
 {
     //Triangle vertices sent through gl_Position to next stage
-    gl_Position = vec4(position.x, position.y, position.z, 1.0);
+    gl_Position = transformIn*vec4(position.x, position.y, position.z, 1.0);
     //Sending texture coordinates to next stage
     textureCoordinatesFrag = textureCoordinatesVertex;
 }

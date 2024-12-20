@@ -1,0 +1,17 @@
+# Ignore Visual Studio and build-related files
+*.ipch
+*.pdb
+*.obj
+*.suo
+*.VC.db
+*.VC.opendb
+*.exe
+*.ilk
+
+# Ignore build output directories
+Debug/
+Release/
+
+# Ignore any other unnecessary files
+*.log
+*.tmp

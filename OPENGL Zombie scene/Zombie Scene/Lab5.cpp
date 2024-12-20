@@ -12,8 +12,15 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
+//GLM
+#include "glm/glm/ext/vector_float3.hpp"
+#include "glm/glm/ext/matrix_transform.hpp"
+#include "glm/glm/gtc/type_ptr.hpp"
 
+using namespace glm;
 using namespace std;
+mat4 transform;
+
 
 //VAO vertex attribute positions in correspondence to vertex attribute type
 enum VAO_IDs { Triangles, Indices, Colours, Textures, NumVAOs = 2 };
@@ -124,7 +131,7 @@ int main()
     //Parameters that will be sent & set based on retrieved texture
     int width, height, colourChannels;
     //Retrieves texture data
-    unsigned char* data = stbi_load("media/wall.jpg", &width, &height, &colourChannels, 0);
+    unsigned char* data = stbi_load("media/woodPlanks.jpg", &width, &height, &colourChannels, 0);
 
     if (data) //If retrieval successful
     {
@@ -139,8 +146,7 @@ int main()
         return -1;
     }
 
-    //Clears retrieved texture from memory
-    stbi_image_free(data);
+   
 
     //Render loop
     while (glfwWindowShouldClose(window) == false)
@@ -151,6 +157,14 @@ int main()
         //Rendering
         glClearColor(0.25f, 0.0f, 1.0f, 1.0f); //Colour to display on cleared window
         glClear(GL_COLOR_BUFFER_BIT); //Clears the colour buffer
+
+        //transform
+        transform = mat4(1.0f);
+        transform = rotate(transform, (float)glfwGetTime(), vec3(0.0, 0.0, 1.0));
+        transform = scale(transform, vec3(0.5, 0.5, 0.5));
+        GLint transformIndex = glGetUniformLocation(program, "transformIn");
+        glUniformMatrix4fv(transformIndex, 1, GL_FALSE, value_ptr(transform));
+
 
         //Drawing
         glBindTexture(GL_TEXTURE_2D, texture);
