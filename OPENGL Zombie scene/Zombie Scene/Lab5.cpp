@@ -19,7 +19,11 @@
 
 using namespace glm;
 using namespace std;
-mat4 transform;
+
+//MVP Dec
+mat4 model;
+mat4 view;
+mat4 projection;
 
 
 //VAO vertex attribute positions in correspondence to vertex attribute type
@@ -35,10 +39,13 @@ GLuint Buffers[NumBuffers];
 
 int main()
 {
+    int windowWidth = 1280;
+    int windowHeight = 720;
+
     //Initialisation of GLFW
     glfwInit();
     //Initialisation of 'GLFWwindow' object
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "Lab5", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "Lab5", NULL, NULL);
 
     //Checks if window has been successfully instantiated
     if (window == NULL)
@@ -66,7 +73,7 @@ int main()
     glUseProgram(program);
 
     //Sets the viewport size within the window to match the window size of 1280x720
-    glViewport(0, 0, 1280, 720);
+    glViewport(0, 0, windowWidth, windowHeight);
 
     //Sets the framebuffer_size_callback() function as the callback for the window resizing event
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -158,12 +165,26 @@ int main()
         glClearColor(0.25f, 0.0f, 1.0f, 1.0f); //Colour to display on cleared window
         glClear(GL_COLOR_BUFFER_BIT); //Clears the colour buffer
 
-        //transform
-        transform = mat4(1.0f);
-        transform = rotate(transform, (float)glfwGetTime(), vec3(0.0, 0.0, 1.0));
-        transform = scale(transform, vec3(0.5, 0.5, 0.5));
+        //transform (perspective)
+        model = mat4(1.0f);
+        model = scale(model, vec3(2.0f, 2.0f, 2.0f));
+        model = rotate(model, (float)radians(-45.0f), vec3(1.0, 0.0, 0.0));
+        model = translate(model, vec3(0.0f, 1.0f, -1.5f));
+        view = lookAt(vec3(0.0f, 0.0f, 3.0f), vec3(0.0f, 0.0f, 2.0f), vec3(0.0f, 1.0f, 0.0f));
+        projection = perspective(radians(45.0f), (float)windowWidth / (float)(windowHeight), 0.1f, 100.0f);
+        
+        //transofrm(rotation)
+        mat4 transform = mat4(1.0f);
+        transform = rotate(transform, (float)glfwGetTime(), vec3(0.0f, 0.0f, 1.0f));
+        transform = scale(transform, vec3(0.5f, 0.5f, 0.5f));
         GLint transformIndex = glGetUniformLocation(program, "transformIn");
         glUniformMatrix4fv(transformIndex, 1, GL_FALSE, value_ptr(transform));
+
+
+
+        mat4 mvp = projection * view * model;
+        int mvpLoc = glGetUniformLocation(program, "mvpIn");
+        glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, value_ptr(mvp));
 
 
         //Drawing
