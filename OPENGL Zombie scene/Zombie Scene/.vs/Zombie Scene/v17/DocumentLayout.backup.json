@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\Main.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|solutionrelative:Main.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\Lab5.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|solutionrelative:Lab5.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
@@ -13,10 +17,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\shaders\\vertexShader.vert||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|solutionrelative:shaders\\vertexShader.vert||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\Main.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{BA378C8B-317C-4546-88FC-FC90F31C38B7}|Zombie Scene.vcxproj|solutionrelative:Main.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,11 +26,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "fragmentShader.frag",
               "DocumentMoniker": "D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\shaders\\fragmentShader.frag",
               "RelativeDocumentMoniker": "shaders\\fragmentShader.frag",
@@ -42,7 +42,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "vertexShader.vert",
               "DocumentMoniker": "D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\shaders\\vertexShader.vert",
               "RelativeDocumentMoniker": "shaders\\vertexShader.vert",
@@ -54,28 +54,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Lab5.cpp",
               "DocumentMoniker": "D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\Lab5.cpp",
               "RelativeDocumentMoniker": "Lab5.cpp",
               "ToolTip": "D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\Lab5.cpp",
               "RelativeToolTip": "Lab5.cpp",
-              "ViewState": "AgIAAJ8AAAAAAAAAAAAAAKgAAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAAAMBAAAAAAAAAAAAAAcBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-18T14:22:35.416Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-12-18T14:22:35.416Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "Main.h",
               "DocumentMoniker": "D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\Main.h",
               "RelativeDocumentMoniker": "Main.h",
               "ToolTip": "D:\\Uni\\3016\\AS2\\OPENGL Zombie scene\\Zombie Scene\\Main.h",
               "RelativeToolTip": "Main.h",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-18T21:31:59.395Z"
+              "WhenOpened": "2024-12-18T21:31:59.395Z",
+              "EditorCaption": ""
             }
           ]
         }

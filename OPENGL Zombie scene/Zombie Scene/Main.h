@@ -12,3 +12,5 @@ void ProcessUserInput(GLFWwindow* WindowIn);
 
 GLuint program;
 //GLSLProgram program;
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);

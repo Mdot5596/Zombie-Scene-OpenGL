@@ -30,6 +30,13 @@ vec3 cameraPosition = vec3(0.0f, 0.0f, 3.0f);
 vec3 cameraFront = vec3(0.0f, 0.0f, -1.0f);
 vec3 cameraUp = vec3(0.0f, 1.0f, 0.0f);
 
+//for camera movement(mouse)
+float cameraYaw = -90.0f;
+float cameraPitch = 0.0f;
+bool mouseFirstEntry = true;
+float cameraLastXPos = 800.0f / 2.0f;
+float cameraLastYPos = 600.0f / 2.0f;
+
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
@@ -62,6 +69,10 @@ int main()
         return -1;
     }
 
+    //cursor auutomaticly binds to window and hides curoso
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+
     //Binds OpenGL to window
     glfwMakeContextCurrent(window);
 
@@ -84,6 +95,8 @@ int main()
 
     //Sets the framebuffer_size_callback() function as the callback for the window resizing event
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    //mousecallback
+    glfwSetCursorPosCallback(window, mouse_callback);
 
     float vertices[] = {
         //Positions             //Textures
@@ -247,4 +260,37 @@ void ProcessUserInput(GLFWwindow* WindowIn)
         cout << "D was pressed" << endl;
         cameraPosition += normalize(cross(cameraFront, cameraUp)) * movementSpeed;
     }
+}
+
+//mousemovement
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    if (mouseFirstEntry) {
+        cameraLastXPos = (float)xpos;
+        cameraLastYPos = (float)ypos;
+        mouseFirstEntry = false;
+    }
+
+    float xOffset = (float)xpos - cameraLastXPos;
+    float yOffset = cameraLastYPos - (float)ypos;
+    cameraLastXPos = (float)xpos;
+    cameraLastYPos = (float)ypos;
+    const float sensitivity = 0.025f;
+    xOffset *= sensitivity;
+    yOffset *= sensitivity;
+    cameraYaw += xOffset;
+    cameraPitch += yOffset;
+    if (cameraPitch > 89.0f)
+    {
+        cameraPitch = 89.0f;
+    }
+    else if (cameraPitch < -89.0f)
+    {
+        cameraPitch = -89.0f;
+    }
+    vec3 direction;
+    direction.x = cos(radians(cameraYaw)) * cos(radians(cameraPitch));
+    direction.y = sin(radians(cameraPitch));
+    direction.z = sin(radians(cameraYaw)) * cos(radians(cameraPitch));
+    cameraFront = normalize(direction);
 }
