@@ -12,3 +12,5 @@ void ProcessUserInput(GLFWwindow* WindowIn);
 
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+
+void SetMatrices(Shader& ShaderProgramIn);

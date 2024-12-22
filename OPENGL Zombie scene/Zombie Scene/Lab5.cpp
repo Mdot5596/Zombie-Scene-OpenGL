@@ -89,8 +89,10 @@ int main()
 
     //Loading of shaders
     Shader program("shaders/vertexShader.vert", "shaders/fragmentShader.frag");
-    Model Rock("media/rock/Rock07-Base.obj");
     program.use();
+    Model Rock("media/rock/Rock07-Base.obj");
+   // Model Tree("media/tree/yamaboushi_tan_6000_a_spr1.obj");
+    Model zombie("media/zombie/zombi.obj");
 
     /*
     //Load shaders
@@ -204,7 +206,7 @@ int main()
         //Rendering
         glClearColor(0.25f, 0.0f, 1.0f, 1.0f); //Colour to display on cleared window
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Clears the colour and depth buffer
-
+        glEnable(GL_CULL_FACE);
         //transform (perspective)
         model = mat4(1.0f);
         model = scale(model, vec3(0.025f, 0.025f, 0.025f));
@@ -212,10 +214,10 @@ int main()
         model = translate(model, vec3(0.0f, -2.0f, -1.5f));
         view = lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
         projection = perspective(radians(45.0f), (float)windowWidth / (float)(windowHeight), 0.1f, 100.0f);
-        mat4 mvp = projection * view * model;
+        //mat4 mvp = projection * view * model;
         // int mvpLoc = glGetUniformLocation(program, "mvpIn");
         // glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, value_ptr(mvp));
-        program.setMat4("mvpIn", mvp);
+        //program.setMat4("mvpIn", mvp);
 
        //transofrm(rotation)
        //mat4 transform = mat4(1.0f);
@@ -229,7 +231,16 @@ int main()
         //glBindTexture(GL_TEXTURE_2D, texture);
         //glBindVertexArray(VAOs[0]); //Bind buffer object to render; VAOs[0]
         //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        SetMatrices(program);
         Rock.Draw(program);
+        model = scale(model, vec3(0.05f, 0.05f, 0.05f));
+        SetMatrices(program);
+      // Tree.Draw(program);
+       //model = scale(model, vec3(20.0f, 20.0f, 20.0f));
+      // SetMatrices(program);
+        zombie.Draw(program);
+        model = scale(model, vec3(20.0f, 20.0f, 20.0f));
+        SetMatrices(program);
 
         //Refreshing
         glfwSwapBuffers(window); //Swaps the colour buffer
@@ -310,4 +321,10 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
     direction.y = sin(radians(cameraPitch));
     direction.z = sin(radians(cameraYaw)) * cos(radians(cameraPitch));
     cameraFront = normalize(direction);
+}
+
+void SetMatrices(Shader& ShaderProgramIn)
+{
+    mat4 mvp = projection * view * model;
+    ShaderProgramIn.setMat4("mvpIn", mvp);
 }
