@@ -88,9 +88,9 @@ int main()
     }
 
     //Loading of shaders
-    Shader Shaders("shaders/vertexShader.vert", "shaders/fragmentShader.frag");
+    Shader program("shaders/vertexShader.vert", "shaders/fragmentShader.frag");
     Model Rock("media/rock/Rock07-Base.obj");
-    Shaders.use();
+    program.use();
 
     /*
     //Load shaders
@@ -113,6 +113,7 @@ int main()
     //mousecallback
     glfwSetCursorPosCallback(window, mouse_callback);
 
+    /*
     float vertices[] = {
         //Positions             //Textures
         0.5f, 0.5f, 0.0f,       1.0f, 1.0f, //top right
@@ -187,7 +188,7 @@ int main()
         cout << "Failed to load texture.\n";
         return -1;
     }
-
+    */
    
 
     //Render loop
@@ -202,31 +203,33 @@ int main()
 
         //Rendering
         glClearColor(0.25f, 0.0f, 1.0f, 1.0f); //Colour to display on cleared window
-        glClear(GL_COLOR_BUFFER_BIT); //Clears the colour buffer
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Clears the colour and depth buffer
 
         //transform (perspective)
         model = mat4(1.0f);
-        model = scale(model, vec3(2.0f, 2.0f, 2.0f));
-        model = rotate(model, (float)radians(-45.0f), vec3(1.0, 0.0, 0.0));
-        model = translate(model, vec3(0.0f, 1.0f, -1.5f));
+        model = scale(model, vec3(0.025f, 0.025f, 0.025f));
+        model = rotate(model, (float)radians(0.0f), vec3(1.0, 0.0, 0.0));
+        model = translate(model, vec3(0.0f, -2.0f, -1.5f));
         view = lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
         projection = perspective(radians(45.0f), (float)windowWidth / (float)(windowHeight), 0.1f, 100.0f);
         mat4 mvp = projection * view * model;
         // int mvpLoc = glGetUniformLocation(program, "mvpIn");
         // glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, value_ptr(mvp));
-        Shaders.setMat4("mvpIn", mvp);
-        //transofrm(rotation)
-        mat4 transform = mat4(1.0f);
-       // transform = rotate(transform, (float)glfwGetTime(), vec3(0.0f, 0.0f, 1.0f));
-        transform = scale(transform, vec3(0.5f, 0.5f, 0.5f));
-      //  GLint transformIndex = glGetUniformLocation(program, "transformIn");
-      //  glUniformMatrix4fv(transformIndex, 1, GL_FALSE, value_ptr(transform));
-        Shaders.setMat4("transformIn", transform);
+        program.setMat4("mvpIn", mvp);
+
+       //transofrm(rotation)
+       //mat4 transform = mat4(1.0f);
+       //transform = rotate(transform, (float)glfwGetTime(), vec3(0.0f, 0.0f, 1.0f));
+       //transform = scale(transform, vec3(0.5f, 0.5f, 0.5f));
+       //GLint transformIndex = glGetUniformLocation(program, "transformIn");
+       //glUniformMatrix4fv(transformIndex, 1, GL_FALSE, value_ptr(transform));
+       //program.setMat4("transformIn", transform);
 
         //Drawing
-        glBindTexture(GL_TEXTURE_2D, texture);
-        glBindVertexArray(VAOs[0]); //Bind buffer object to render; VAOs[0]
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        //glBindTexture(GL_TEXTURE_2D, texture);
+        //glBindVertexArray(VAOs[0]); //Bind buffer object to render; VAOs[0]
+        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        Rock.Draw(program);
 
         //Refreshing
         glfwSwapBuffers(window); //Swaps the colour buffer
