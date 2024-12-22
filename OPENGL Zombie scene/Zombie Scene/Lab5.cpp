@@ -1,21 +1,23 @@
 //STD
 #include <iostream>
-
+#include "GLAD/glad.h"
 //GLEW
-#include <GL/glew.h>
-
-//GENERAL
-#include "main.h"
-#include "LoadShaders.h"
-
-//TEXTURING
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-
+//#include <GL/glew.h>
+//#include "LoadShaders.h"
 //GLM
 #include "glm/glm/ext/vector_float3.hpp"
 #include "glm/glm/ext/matrix_transform.hpp"
 #include "glm/glm/gtc/type_ptr.hpp"
+
+//Assimp
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+//LEARNOPENGL
+#include <learnopengl/shader_m.h>
+#include <learnopengl/model.h>
+#include "main.h"
 
 using namespace glm;
 using namespace std;
@@ -77,8 +79,20 @@ int main()
     glfwMakeContextCurrent(window);
 
     //Initialisation of GLEW
-    glewInit();
+   // glewInit();
+    //Initialisation of GLAD
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        cout << "GLAD failed to initialise\n";
+        return -1;
+    }
 
+    //Loading of shaders
+    Shader Shaders("shaders/vertexShader.vert", "shaders/fragmentShader.frag");
+    Model Rock("media/rock/Rock07-Base.obj");
+    Shaders.use();
+
+    /*
     //Load shaders
     ShaderInfo shaders[] =
     {
@@ -89,6 +103,7 @@ int main()
 
     program = LoadShaders(shaders);
     glUseProgram(program);
+    */
 
     //Sets the viewport size within the window to match the window size of 1280x720
     glViewport(0, 0, windowWidth, windowHeight);
@@ -196,18 +211,17 @@ int main()
         model = translate(model, vec3(0.0f, 1.0f, -1.5f));
         view = lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
         projection = perspective(radians(45.0f), (float)windowWidth / (float)(windowHeight), 0.1f, 100.0f);
-        
+        mat4 mvp = projection * view * model;
+        // int mvpLoc = glGetUniformLocation(program, "mvpIn");
+        // glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, value_ptr(mvp));
+        Shaders.setMat4("mvpIn", mvp);
         //transofrm(rotation)
         mat4 transform = mat4(1.0f);
        // transform = rotate(transform, (float)glfwGetTime(), vec3(0.0f, 0.0f, 1.0f));
         transform = scale(transform, vec3(0.5f, 0.5f, 0.5f));
-        GLint transformIndex = glGetUniformLocation(program, "transformIn");
-        glUniformMatrix4fv(transformIndex, 1, GL_FALSE, value_ptr(transform));
-        //mvp tpye shit
-        mat4 mvp = projection * view * model;
-        int mvpLoc = glGetUniformLocation(program, "mvpIn");
-        glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, value_ptr(mvp));
-
+      //  GLint transformIndex = glGetUniformLocation(program, "transformIn");
+      //  glUniformMatrix4fv(transformIndex, 1, GL_FALSE, value_ptr(transform));
+        Shaders.setMat4("transformIn", transform);
 
         //Drawing
         glBindTexture(GL_TEXTURE_2D, texture);

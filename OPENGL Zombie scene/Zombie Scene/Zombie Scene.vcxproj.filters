@@ -24,6 +24,9 @@
     <ClCompile Include="LoadShaders.cpp">
       <Filter>Resource Files\shaders</Filter>
     </ClCompile>
+    <ClCompile Include="glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Main.h">
@@ -31,6 +34,18 @@
     </ClInclude>
     <ClInclude Include="LoadShaders.h">
       <Filter>Resource Files\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\MHodg\OpenGL\include\learnopengl\shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\MHodg\OpenGL\include\learnopengl\shader_m.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\MHodg\OpenGL\include\learnopengl\mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\Users\MHodg\OpenGL\include\learnopengl\model.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
