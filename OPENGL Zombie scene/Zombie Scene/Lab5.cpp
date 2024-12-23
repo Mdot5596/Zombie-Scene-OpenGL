@@ -78,8 +78,11 @@ int main()
     //Binds OpenGL to window
     glfwMakeContextCurrent(window);
 
+
     //Initialisation of GLEW
-   // glewInit();
+    // glewInit();
+    
+
     //Initialisation of GLAD
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -90,22 +93,10 @@ int main()
     //Loading of shaders
     Shader program("shaders/vertexShader.vert", "shaders/fragmentShader.frag");
     program.use();
+    Model Signature("media/Signature/signature.obj");
     Model Rock("media/rock/Rock07-Base.obj");
-   // Model Tree("media/tree/yamaboushi_tan_6000_a_spr1.obj");
     Model zombie("media/zombie/zombi.obj");
-
-    /*
-    //Load shaders
-    ShaderInfo shaders[] =
-    {
-        { GL_VERTEX_SHADER, "shaders/vertexShader.vert" },
-        { GL_FRAGMENT_SHADER, "shaders/fragmentShader.frag" },
-        { GL_NONE, NULL }
-    };
-
-    program = LoadShaders(shaders);
-    glUseProgram(program);
-    */
+  //Model Tree("media/tree/yamaboushi_tan_6000_a_spr1.obj");
 
     //Sets the viewport size within the window to match the window size of 1280x720
     glViewport(0, 0, windowWidth, windowHeight);
@@ -115,83 +106,6 @@ int main()
     //mousecallback
     glfwSetCursorPosCallback(window, mouse_callback);
 
-    /*
-    float vertices[] = {
-        //Positions             //Textures
-        0.5f, 0.5f, 0.0f,       1.0f, 1.0f, //top right
-        0.5f, -0.5f, 0.0f,      1.0f, 0.0f, //bottom right
-        -0.5f, -0.5f, 0.0f,     0.0f, 0.0f, //bottom left
-        -0.5f, 0.5f, 0.0f,      0.0f, 1.0f  //top left
-    };
-
-    unsigned int indices[] = {
-        0, 1, 3, //first triangle
-        1, 2, 3 //second triangle
-    };
-
-    //Sets index of VAO
-    glGenVertexArrays(NumVAOs, VAOs); //NumVAOs, VAOs
-    //Binds VAO to a buffer
-    glBindVertexArray(VAOs[0]); //VAOs[0]
-    //Sets indexes of all required buffer objects
-    glGenBuffers(NumBuffers, Buffers); //NumBuffers, Buffers
-    //glGenBuffers(1, &EBO);
-
-    //Binds vertex object to array buffer
-    glBindBuffer(GL_ARRAY_BUFFER, Buffers[Triangles]); //Buffers[Triangles]
-    //Allocates buffer memory for the vertices of the 'Triangles' buffer
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    //Binding & allocation for indices
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Buffers[Indices]); //Buffers[Indices]
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    //Allocation & indexing of vertex attribute memory for vertex shader
-    //Positions
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    //Textures
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    //Unbinding
-    glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-    //Texture index
-    unsigned int texture;
-    //Textures to generate
-    glGenTextures(1, &texture);
-
-    //Binding texture to type 2D texture
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    //Selects x axis (S) of texture bound to GL_TEXTURE_2D & sets to repeat beyond normalised coordinates
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    //Selects y axis (T) equivalently
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    //Parameters that will be sent & set based on retrieved texture
-    int width, height, colourChannels;
-    //Retrieves texture data
-    unsigned char* data = stbi_load("media/woodPlanks.jpg", &width, &height, &colourChannels, 0);
-
-    if (data) //If retrieval successful
-    {
-        //Generation of texture from retrieved texture data
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        //Automatically generates all required mipmaps on bound texture
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else //If retrieval unsuccessful
-    {
-        cout << "Failed to load texture.\n";
-        return -1;
-    }
-    */
-   
 
     //Render loop
     while (glfwWindowShouldClose(window) == false)
@@ -207,6 +121,7 @@ int main()
         glClearColor(0.25f, 0.0f, 1.0f, 1.0f); //Colour to display on cleared window
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Clears the colour and depth buffer
         glEnable(GL_CULL_FACE);
+
         //transform (perspective)
         model = mat4(1.0f);
         model = scale(model, vec3(0.025f, 0.025f, 0.025f));
@@ -214,42 +129,34 @@ int main()
         model = translate(model, vec3(0.0f, -2.0f, -1.5f));
         view = lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
         projection = perspective(radians(45.0f), (float)windowWidth / (float)(windowHeight), 0.1f, 100.0f);
-        //mat4 mvp = projection * view * model;
-        // int mvpLoc = glGetUniformLocation(program, "mvpIn");
-        // glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, value_ptr(mvp));
-        //program.setMat4("mvpIn", mvp);
+       
+        //Render my signature
+        model = mat4(1.0f); // Reset to identity matrix
+        model = scale(model, vec3(0.002f, 0.002f, 0.002f));
+        model = translate(model, vec3(-3500.0f, 5.0f, 5.0f));
+        model = rotate(model, radians(90.0f), vec3(1.0f, 0.0f, 0.0f)); // Rotate 90 degrees around the X-axis so the sigatures stood up
+        SetMatrices(program);
+        Signature.Draw(program);
 
-       //transofrm(rotation)
-       //mat4 transform = mat4(1.0f);
-       //transform = rotate(transform, (float)glfwGetTime(), vec3(0.0f, 0.0f, 1.0f));
-       //transform = scale(transform, vec3(0.5f, 0.5f, 0.5f));
-       //GLint transformIndex = glGetUniformLocation(program, "transformIn");
-       //glUniformMatrix4fv(transformIndex, 1, GL_FALSE, value_ptr(transform));
-       //program.setMat4("transformIn", transform);
-
-        //Drawing
-        //glBindTexture(GL_TEXTURE_2D, texture);
-        //glBindVertexArray(VAOs[0]); //Bind buffer object to render; VAOs[0]
-        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-       // Render the rock
+        //Render the rock
         model = mat4(1.0f); // Reset to identity matrix
         model = scale(model, vec3(0.025f, 0.025f, 0.025f));
         model = translate(model, vec3(0.0f, -2.0f, -1.5f)); // Position as needed
         SetMatrices(program);
         Rock.Draw(program);
 
-        // Render the tree
-     //   model = mat4(1.0f); // Reset again
-      //  model = scale(model, vec3(0.05f, 0.05f, 0.05f));
-      //  SetMatrices(program);
-      //  Tree.Draw(program);
-
+        //Render the zombie
         model = mat4(1.0f); // Reset to identity matrix
         model = scale(model, vec3(0.002f, 0.002f, 0.002f)); // Scale the zombie model
         model = translate(model, vec3(-1000.0f, 0.0f, 0.0f)); // Move left by 200 units
         SetMatrices(program);
         zombie.Draw(program);
 
+        // Render the tree
+        // model = mat4(1.0f); // Reset again
+        // model = scale(model, vec3(0.05f, 0.05f, 0.05f));
+        // SetMatrices(program);
+        // Tree.Draw(program);
 
 
         //Refreshing

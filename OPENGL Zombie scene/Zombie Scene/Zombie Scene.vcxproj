@@ -141,6 +141,7 @@
     <ClInclude Include="C:\Users\MHodg\OpenGL\include\learnopengl\model.h" />
     <ClInclude Include="C:\Users\MHodg\OpenGL\include\learnopengl\shader.h" />
     <ClInclude Include="C:\Users\MHodg\OpenGL\include\learnopengl\shader_m.h" />
+    <ClInclude Include="FastNoiseLite.h" />
     <ClInclude Include="LoadShaders.h" />
     <ClInclude Include="Main.h" />
   </ItemGroup>

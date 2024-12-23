@@ -47,6 +47,9 @@
     <ClInclude Include="C:\Users\MHodg\OpenGL\include\learnopengl\model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FastNoiseLite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\vertexShader.vert">
