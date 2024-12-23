@@ -197,6 +197,25 @@ void ProcessUserInput(GLFWwindow* WindowIn)
         glfwSetWindowShouldClose(WindowIn, true);
     }
 
+    //Plays scream each time space is pressed
+    static bool spacePressed = false; // Track if space is currently pressed
+
+    if (glfwGetKey(WindowIn, GLFW_KEY_SPACE) == GLFW_PRESS)
+    {
+        if (!spacePressed) // Trigger only when key is first pressed
+        {
+            ISoundEngine* engine = createIrrKlangDevice();
+            cout << "Spacebar pressed: Playing audio!" << endl;
+            engine->play2D("audio/mixkit-falling-male-scream-391.wav");
+            spacePressed = true;
+        }
+    }
+
+    else
+    {
+        spacePressed = false; // Reset when spacebar is released
+    }
+
     if (glfwGetKey(WindowIn, GLFW_KEY_W) == GLFW_PRESS)
     {
         cout << "W was pressed" << endl;
