@@ -19,8 +19,12 @@
 #include <learnopengl/model.h>
 #include "main.h"
 
+//Audio
+#include <irrKlang.h>
+
 using namespace glm;
 using namespace std;
+using namespace irrklang;
 
 //MVP Dec
 mat4 model;
@@ -57,6 +61,14 @@ int main()
 {
     int windowWidth = 1280;
     int windowHeight = 720;
+
+    //audio
+    ISoundEngine* engine = createIrrKlangDevice();
+    if (!engine)
+        return 0;
+    engine->play2D("audio/mixkit-light-rain-loop-2393.wav", true);
+
+    //aduio end
 
     //Initialisation of GLFW
     glfwInit();
@@ -166,7 +178,7 @@ int main()
 
     //Safely terminates GLFW
     glfwTerminate();
-
+    engine->drop(); // delete engine
     return 0;
 }
 
