@@ -231,16 +231,26 @@ int main()
         //glBindTexture(GL_TEXTURE_2D, texture);
         //glBindVertexArray(VAOs[0]); //Bind buffer object to render; VAOs[0]
         //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+       // Render the rock
+        model = mat4(1.0f); // Reset to identity matrix
+        model = scale(model, vec3(0.025f, 0.025f, 0.025f));
+        model = translate(model, vec3(0.0f, -2.0f, -1.5f)); // Position as needed
         SetMatrices(program);
         Rock.Draw(program);
-        model = scale(model, vec3(0.05f, 0.05f, 0.05f));
+
+        // Render the tree
+     //   model = mat4(1.0f); // Reset again
+      //  model = scale(model, vec3(0.05f, 0.05f, 0.05f));
+      //  SetMatrices(program);
+      //  Tree.Draw(program);
+
+        model = mat4(1.0f); // Reset to identity matrix
+        model = scale(model, vec3(0.002f, 0.002f, 0.002f)); // Scale the zombie model
+        model = translate(model, vec3(-1000.0f, 0.0f, 0.0f)); // Move left by 200 units
         SetMatrices(program);
-      // Tree.Draw(program);
-       //model = scale(model, vec3(20.0f, 20.0f, 20.0f));
-      // SetMatrices(program);
         zombie.Draw(program);
-        model = scale(model, vec3(20.0f, 20.0f, 20.0f));
-        SetMatrices(program);
+
+
 
         //Refreshing
         glfwSwapBuffers(window); //Swaps the colour buffer
