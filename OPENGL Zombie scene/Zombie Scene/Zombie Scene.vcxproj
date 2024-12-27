@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Uni\3016\AS2\OPENGL Zombie scene\Zombie Scene\Audio\includes;C:\Users\MHodg\Assimp\assimp\binaries\include;C:\Users\MHodg\Assimp\assimp\include;C:\Users\MHodg\OpenGL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Uni\3016\AS2\OPENGL Zombie scene\Zombie Scene\Audio\lib;C:\Users\MHodg\Assimp\assimp\binaries\lib\Release;C:\Users\MHodg\OpenGL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\MHodg\Desktop\3016 Game Tech\Assigment 2\Working Version\Zombie-Scene-OpenGL\OPENGL Zombie scene\Zombie Scene\Audio\includes;C:\Users\MHodg\Assimp\assimp\binaries\include;C:\Users\MHodg\Assimp\assimp\include;C:\Users\MHodg\OpenGL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\MHodg\Desktop\3016 Game Tech\Assigment 2\Working Version\Zombie-Scene-OpenGL\OPENGL Zombie scene\Zombie Scene\Audio\lib;C:\Users\MHodg\Assimp\assimp\binaries\lib\Release;C:\Users\MHodg\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

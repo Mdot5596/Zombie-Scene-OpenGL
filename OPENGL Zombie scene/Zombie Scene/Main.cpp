@@ -1,4 +1,4 @@
-//STD
+//STD//STD
 #include <iostream>
 #include "GLAD/glad.h"
 //GLEW
@@ -21,6 +21,8 @@
 
 //Audio
 #include <irrKlang.h>
+//Terrain
+#include "FastNoiseLite.h" 
 
 using namespace glm;
 using namespace std;
@@ -46,6 +48,11 @@ float cameraLastYPos = 600.0f / 2.0f;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+// Global variables
+GLuint terrainVAO, terrainVBO, terrainEBO;
+std::vector<float> terrainVertices;
+std::vector<unsigned int> terrainIndices;
+
 //VAO vertex attribute positions in correspondence to vertex attribute type
 enum VAO_IDs { Triangles, Indices, Colours, Textures, NumVAOs = 2 };
 //VAOs
@@ -56,6 +63,42 @@ enum Buffer_IDs { ArrayBuffer, NumBuffers = 4 };
 //Buffer objects
 GLuint Buffers[NumBuffers];
 
+void GenerateTerrain(std::vector<float>& vertices, std::vector<unsigned int>& indices,
+    int width, int height, float scale) {
+    FastNoiseLite noise;
+    noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin); // Set Perlin noise
+    noise.SetFrequency(0.05f);
+
+    // Generate vertices
+    for (int z = 0; z < height; ++z) {
+        for (int x = 0; x < width; ++x) {
+            float heightValue = noise.GetNoise((float)x * scale, (float)z * scale);
+            vertices.push_back(x * scale);          // X position
+            vertices.push_back(heightValue);        // Y position (height)
+            vertices.push_back(z * scale);          // Z position
+        }
+    }
+
+    // Generate indices
+    for (int z = 0; z < height - 1; ++z) {
+        for (int x = 0; x < width - 1; ++x) {
+            int topLeft = z * width + x;
+            int topRight = topLeft + 1;
+            int bottomLeft = topLeft + width;
+            int bottomRight = bottomLeft + 1;
+
+            // First triangle
+            indices.push_back(topLeft);
+            indices.push_back(bottomLeft);
+            indices.push_back(topRight);
+
+            // Second triangle
+            indices.push_back(topRight);
+            indices.push_back(bottomLeft);
+            indices.push_back(bottomRight);
+        }
+    }
+}
 
 int main()
 {
@@ -107,16 +150,38 @@ int main()
     program.use();
     Model Signature("media/Signature/signature.obj");
     Model Rock("media/rock/Rock07-Base.obj");
-  //Model zombie("media/zombie/zombi.obj");
+    //Model zombie("media/zombie/zombi.obj");
     Model Ghoul("media/Ghoul/swampGhoul.obj");
 
-      //Sets the viewport size within the window to match the window size of 1280x720
+    //Sets the viewport size within the window to match the window size of 1280x720
     glViewport(0, 0, windowWidth, windowHeight);
 
     //Sets the framebuffer_size_callback() function as the callback for the window resizing event
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     //mousecallback
     glfwSetCursorPosCallback(window, mouse_callback);
+
+    // Generate terrain
+    GenerateTerrain(terrainVertices, terrainIndices, 100, 100, 0.1f);
+
+    // Setup VAO and VBO
+        glGenVertexArrays(1, &terrainVAO);
+    glGenBuffers(1, &terrainVBO);
+    glGenBuffers(1, &terrainEBO);
+
+    glBindVertexArray(terrainVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, terrainVBO);
+    glBufferData(GL_ARRAY_BUFFER, terrainVertices.size() * sizeof(float), terrainVertices.data(), GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainEBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, terrainIndices.size() * sizeof(unsigned int), terrainIndices.data(), GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glBindVertexArray(0);
+
+
+    //Terrain End
 
 
     //Render loop
@@ -171,10 +236,16 @@ int main()
         //SetMatrices(program);
         //zombie.Draw(program);
 
+            // Render terrain
+            glBindVertexArray(terrainVAO);
+            model = mat4(1.0f);
+            SetMatrices(program);
+            glDrawElements(GL_TRIANGLES, terrainIndices.size(), GL_UNSIGNED_INT, 0);
+            glBindVertexArray(0);
 
-        //Refreshing
-        glfwSwapBuffers(window); //Swaps the colour buffer
-        glfwPollEvents(); //Queries all GLFW events
+            glfwSwapBuffers(window);
+            glfwPollEvents();
+      
     }
 
     //Safely terminates GLFW
