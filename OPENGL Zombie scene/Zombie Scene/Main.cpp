@@ -1,4 +1,4 @@
-//STD//STD
+//one im putting work on
 #include <iostream>
 #include "GLAD/glad.h"
 //GLEW
@@ -63,23 +63,24 @@ enum Buffer_IDs { ArrayBuffer, NumBuffers = 4 };
 //Buffer objects
 GLuint Buffers[NumBuffers];
 
-void GenerateTerrain(std::vector<float>& vertices, std::vector<unsigned int>& indices,
-    int width, int height, float scale) {
+
+void GenerateTerrain(std::vector<float>& vertices, std::vector<unsigned int>& indices, int width, int height, float scale) {
     FastNoiseLite noise;
     noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin); // Set Perlin noise
-    noise.SetFrequency(0.05f);
+    noise.SetFrequency(0.5f);                            // Increase frequency for more lumps
+    float amplitude = 0.4f;                              // Increase amplitude for higher hills
 
-    // Generate vertices
+    // Generate vertices with height variation
     for (int z = 0; z < height; ++z) {
         for (int x = 0; x < width; ++x) {
             float heightValue = noise.GetNoise((float)x * scale, (float)z * scale);
-            vertices.push_back(x * scale);          // X position
-            vertices.push_back(heightValue);        // Y position (height)
-            vertices.push_back(z * scale);          // Z position
+            vertices.push_back(x * scale);                // X position
+            vertices.push_back(heightValue * amplitude);  // Y position (height)
+            vertices.push_back(z * scale);                // Z position
         }
     }
 
-    // Generate indices
+    // Generate indices for triangle strips
     for (int z = 0; z < height - 1; ++z) {
         for (int x = 0; x < width - 1; ++x) {
             int topLeft = z * width + x;
@@ -105,18 +106,17 @@ int main()
     int windowWidth = 1280;
     int windowHeight = 720;
 
-    //audio
+    //Audio
     ISoundEngine* engine = createIrrKlangDevice();
     if (!engine)
         return 0;
     engine->play2D("audio/mixkit-light-rain-loop-2393.wav", true);
 
-    //aduio end
 
     //Initialisation of GLFW
     glfwInit();
-    //Initialisation of 'GLFWwindow' object
-    GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "Lab5", NULL, NULL);
+    //Initialisation of GLFWwindow
+    GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "Zombie Scene", NULL, NULL);
 
     //Checks if window has been successfully instantiated
     if (window == NULL)
@@ -153,6 +153,7 @@ int main()
     //Model zombie("media/zombie/zombi.obj");
     Model Ghoul("media/Ghoul/swampGhoul.obj");
 
+
     //Sets the viewport size within the window to match the window size of 1280x720
     glViewport(0, 0, windowWidth, windowHeight);
 
@@ -165,7 +166,7 @@ int main()
     GenerateTerrain(terrainVertices, terrainIndices, 100, 100, 0.1f);
 
     // Setup VAO and VBO
-        glGenVertexArrays(1, &terrainVAO);
+    glGenVertexArrays(1, &terrainVAO);
     glGenBuffers(1, &terrainVBO);
     glGenBuffers(1, &terrainEBO);
 
@@ -179,7 +180,6 @@ int main()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     glBindVertexArray(0);
-
 
     //Terrain End
 
@@ -223,11 +223,7 @@ int main()
         Rock.Draw(program);
 
         //Render the Ghoul
-        model = mat4(1.0f); // Reset to identity matrix
-        model = scale(model, vec3(1.0f, 1.0f, 1.0f)); // Scale the zombie model up significantly
-        model = translate(model, vec3(0.0f, -2.0f, -1.5f)); // Position as needed
-        SetMatrices(program);
-        Ghoul.Draw(program);
+
 
         //Render the zombie
         //model = mat4(1.0f); // Reset to identity matrix
@@ -236,16 +232,23 @@ int main()
         //SetMatrices(program);
         //zombie.Draw(program);
 
-            // Render terrain
-            glBindVertexArray(terrainVAO);
-            model = mat4(1.0f);
-            SetMatrices(program);
-            glDrawElements(GL_TRIANGLES, terrainIndices.size(), GL_UNSIGNED_INT, 0);
-            glBindVertexArray(0);
+        // Render terrain
+        glBindVertexArray(terrainVAO);
+        model = mat4(1.0f);
+        model = scale(model, vec3(1.0f, 1.0f, 1.0f));
+        model = translate(model, vec3(0.0f, -5.0f, -5.0f));
+        SetMatrices(program);
+        glDrawElements(GL_TRIANGLES, terrainIndices.size(), GL_UNSIGNED_INT, 0);
 
-            glfwSwapBuffers(window);
-            glfwPollEvents();
-      
+        //Render the Ghoul
+        model = mat4(1.0f); // Reset to identity matrix
+        model = scale(model, vec3(1.0f, 1.0f, 1.0f)); // Scale the zombie model up significantly
+        model = translate(model, vec3(0.0f, -2.0f, -1.5f)); // Position as needed
+        SetMatrices(program);
+        Ghoul.Draw(program);
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+
     }
 
     //Safely terminates GLFW
