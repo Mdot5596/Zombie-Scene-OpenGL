@@ -77,6 +77,7 @@ void GenerateTerrain(std::vector<float>& vertices, std::vector<unsigned int>& in
             vertices.push_back(x * scale);                // X position
             vertices.push_back(heightValue * amplitude);  // Y position (height)
             vertices.push_back(z * scale);                // Z position
+
         }
     }
 
@@ -150,9 +151,8 @@ int main()
     program.use();
     Model Signature("media/Signature/signature.obj");
     Model Rock("media/rock/Rock07-Base.obj");
-    //Model zombie("media/zombie/zombi.obj");
     Model Ghoul("media/Ghoul/swampGhoul.obj");
-
+	Model Car("media/Asteroid/Asteroid_1d_LOD.fbx");
 
     //Sets the viewport size within the window to match the window size of 1280x720
     glViewport(0, 0, windowWidth, windowHeight);
@@ -177,8 +177,14 @@ int main()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainEBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, terrainIndices.size() * sizeof(unsigned int), terrainIndices.data(), GL_STATIC_DRAW);
 
+	//position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
+    //Colours
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
     glBindVertexArray(0);
 
     //Terrain End
@@ -222,15 +228,13 @@ int main()
         SetMatrices(program);
         Rock.Draw(program);
 
-        //Render the Ghoul
+        //Render the rock
+        model = mat4(1.0f); // Reset to identity matrix
+        model = scale(model, vec3(1.1f, 1.1f, 1.1f));
+        model = translate(model, vec3(0.0f, -2.0f, -1.5f)); // Position as needed
+        SetMatrices(program);
+        Car.Draw(program);
 
-
-        //Render the zombie
-        //model = mat4(1.0f); // Reset to identity matrix
-        // model = scale(model, vec3(0.002f, 0.002f, 0.002f)); // Scale the zombie model
-        //model = translate(model, vec3(-1000.0f, 0.0f, 0.0f)); // Move left by 200 units
-        //SetMatrices(program);
-        //zombie.Draw(program);
 
         // Render terrain
         glBindVertexArray(terrainVAO);

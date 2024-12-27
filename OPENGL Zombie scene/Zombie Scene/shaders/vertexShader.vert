@@ -3,6 +3,7 @@
 //Triangle position with values retrieved from main.cpp
 layout (location = 0) in vec3 position;
 
+
 //Texture coordinates from last stage
 layout (location = 2) in vec2 textureCoordinatesVertex;
 
