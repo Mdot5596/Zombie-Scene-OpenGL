@@ -152,7 +152,6 @@ int main()
     Model Signature("media/Signature/signature.obj");
     Model Rock("media/rock/Rock07-Base.obj");
     Model Ghoul("media/Ghoul/swampGhoul.obj");
-	Model Car("media/Asteroid/Asteroid_1d_LOD.fbx");
 
     //Sets the viewport size within the window to match the window size of 1280x720
     glViewport(0, 0, windowWidth, windowHeight);
@@ -213,6 +212,14 @@ int main()
         view = lookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
         projection = perspective(radians(45.0f), (float)windowWidth / (float)(windowHeight), 0.1f, 100.0f);
 
+        // Render terrain
+        glBindVertexArray(terrainVAO);
+        model = mat4(1.0f);
+        model = scale(model, vec3(1.5f, 1.5f, 1.5f));
+        model = translate(model, vec3(-5.0f, 0.0f, -5.0f));
+        SetMatrices(program);
+        glDrawElements(GL_TRIANGLES, terrainIndices.size(), GL_UNSIGNED_INT, 0);
+
         //Render my signature
         model = mat4(1.0f); // Reset to identity matrix
         model = scale(model, vec3(0.002f, 0.002f, 0.002f));
@@ -223,31 +230,15 @@ int main()
 
         //Render the rock
         model = mat4(1.0f); // Reset to identity matrix
-        model = scale(model, vec3(0.025f, 0.025f, 0.025f));
-        model = translate(model, vec3(0.0f, -2.0f, -1.5f)); // Position as needed
+        model = scale(model, vec3(0.05f, 0.05f, 0.05f));
+        model = translate(model, vec3(-5.0f, -3.0f, -1.5f));; // Position as needed
         SetMatrices(program);
         Rock.Draw(program);
 
-        //Render the rock
-        model = mat4(1.0f); // Reset to identity matrix
-        model = scale(model, vec3(1.1f, 1.1f, 1.1f));
-        model = translate(model, vec3(0.0f, -2.0f, -1.5f)); // Position as needed
-        SetMatrices(program);
-        Car.Draw(program);
-
-
-        // Render terrain
-        glBindVertexArray(terrainVAO);
-        model = mat4(1.0f);
-        model = scale(model, vec3(1.0f, 1.0f, 1.0f));
-        model = translate(model, vec3(0.0f, -5.0f, -5.0f));
-        SetMatrices(program);
-        glDrawElements(GL_TRIANGLES, terrainIndices.size(), GL_UNSIGNED_INT, 0);
-
         //Render the Ghoul
         model = mat4(1.0f); // Reset to identity matrix
-        model = scale(model, vec3(1.0f, 1.0f, 1.0f)); // Scale the zombie model up significantly
-        model = translate(model, vec3(0.0f, -2.0f, -1.5f)); // Position as needed
+        model = scale(model, vec3(2.0f, 2.0f, 2.0f));; // Scale the zombie model up significantly
+        model = translate(model, vec3(0.0f, 1.0f, -0.5f));; // Position as needed
         SetMatrices(program);
         Ghoul.Draw(program);
         glfwSwapBuffers(window);
