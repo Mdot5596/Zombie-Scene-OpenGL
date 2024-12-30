@@ -28,9 +28,6 @@ using namespace glm;
 using namespace std;
 using namespace irrklang;
 
-// Function prototypes
-float EaseInOut(float t);
-void UpdateGhoulRotation(float deltaTime);
 
 //MVP Dec
 mat4 model;
@@ -52,37 +49,15 @@ float cameraLastYPos = 600.0f / 2.0f;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+// Cloud movement variables
+float moveSpeed = 1.0f;  // Speed of movement
+float maxRange = 5.0f;   // Range of movement (left to right)
+float animationTime = 0.0f;  // Tracks elapsed time for animation
+
 // Global variables
 GLuint terrainVAO, terrainVBO, terrainEBO;
 std::vector<float> terrainVertices;
 std::vector<unsigned int> terrainIndices;
-
-// Animation variables
-float animationElapsed = 0.0f; // Time elapsed in animation
-float animationDuration = 5.0f; // Duration of one rotation animation (in seconds)
-float ghoulRotation = 0.0f; // Current rotation angle of the ghoul
-
-// Function to calculate EaseInOut
-float EaseInOut(float t) {
-    if (t < 0.5f) {
-        return 2.0f * t * t;
-    }
-    else {
-        return 1.0f - pow(-2.0f * t + 2.0f, 2.0f) / 2.0f;
-    }
-}
-
-// Function to update ghoul rotation based on time
-void UpdateGhoulRotation(float deltaTime) {
-    animationElapsed += deltaTime;
-    if (animationElapsed > animationDuration) {
-        animationElapsed -= animationDuration; // Loop the animation
-    }
-    float t = animationElapsed / animationDuration; // Normalize time to range [0, 1]
-    t = EaseInOut(t); // Apply easing
-    ghoulRotation = t * 360.0f; // Map eased time to a full rotation
-}
-
 
 //VAO vertex attribute positions in correspondence to vertex attribute type
 enum VAO_IDs { Triangles, Indices, Colours, Textures, NumVAOs = 2 };
@@ -231,6 +206,8 @@ int main()
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
+        animationTime += deltaTime;  // Increment animation time
+
         //Input
         ProcessUserInput(window); //Takes user input
 
@@ -263,21 +240,27 @@ int main()
         SetMatrices(program);
         Signature.Draw(program);
 
-        //Render the rock
+        // Render animated rock
+        float xOffset = sin(animationTime) * 5.0f; // Move rock left and right
         model = mat4(1.0f); // Reset to identity matrix
         model = scale(model, vec3(0.05f, 0.05f, 0.05f));
-        model = translate(model, vec3(-5.0f, -3.0f, -1.5f));; // Position as needed
+        model = translate(model, vec3(xOffset, -3.0f, -1.5f)); // Apply X offset
         SetMatrices(program);
         Rock.Draw(program);
 
-        // Render the Ghoul with animated rotation
-        model = mat4(1.0f);
-        model = scale(model, vec3(2.0f, 2.0f, 2.0f));
-        model = translate(model, vec3(0.0f, 1.0f, -0.5f));
-        model = rotate(model, radians(ghoulRotation), vec3(1.0f, 1.0f, 1.0f)); // Apply animated rotation
+        //Render the rock
+      //model = mat4(1.0f); // Reset to identity matrix
+      //model = scale(model, vec3(0.05f, 0.05f, 0.05f));
+      //model = translate(model, vec3(-5.0f, -3.0f, -1.5f));; // Position as needed
+      //SetMatrices(program);
+     // Rock.Draw(program);
+
+        //Render the Ghoul
+        model = mat4(1.0f); // Reset to identity matrix
+        model = scale(model, vec3(2.0f, 2.0f, 2.0f));; // Scale the zombie model up significantly
+        model = translate(model, vec3(0.0f, 1.0f, -0.5f));; // Position as needed
         SetMatrices(program);
         Ghoul.Draw(program);
-
         glfwSwapBuffers(window);
         glfwPollEvents();
 
