@@ -34,7 +34,7 @@ mat4 view;
 mat4 projection;
 
 //camera variables
-vec3 cameraPosition = vec3(0.0f, 0.0f, 3.0f);
+vec3 cameraPosition = vec3(0.0f, 2.0f, 8.0f); //posoiton of starting camera
 vec3 cameraFront = vec3(0.0f, 0.0f, -1.0f);
 vec3 cameraUp = vec3(0.0f, 1.0f, 0.0f);
 
@@ -77,6 +77,10 @@ void GenerateTerrain(std::vector<float>& vertices, std::vector<unsigned int>& in
             vertices.push_back(x * scale);                // X position
             vertices.push_back(heightValue * amplitude);  // Y position (height)
             vertices.push_back(z * scale);                // Z position
+            // color attributes 
+           // vertices.push_back(0.1f); // R
+            //vertices.push_back(0.8f); // G
+           // vertices.push_back(0.1f); // B
 
         }
     }
@@ -162,7 +166,7 @@ int main()
     glfwSetCursorPosCallback(window, mouse_callback);
 
     // Generate terrain
-    GenerateTerrain(terrainVertices, terrainIndices, 100, 100, 0.1f);
+    GenerateTerrain(terrainVertices, terrainIndices, 100, 100, 0.4f);
 
     // Setup VAO and VBO
     glGenVertexArrays(1, &terrainVAO);
@@ -181,8 +185,8 @@ int main()
     glEnableVertexAttribArray(0);
 
     //Colours
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+   // glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);
 
