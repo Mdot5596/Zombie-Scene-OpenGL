@@ -50,8 +50,8 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 // Cloud movement variables
-float moveSpeed = 1.0f;      // Speed of movement
-float maxRange = 5.0f;       // Range of movement (left to right)
+float moveSpeed = 0.5f;      // Speed of movement
+float maxRange = 3.0f;       // Range of movement (left to right)
 float animationTime = 0.0f;  // Tracks elapsed time for animation
 
 // Global variables
@@ -163,6 +163,7 @@ int main()
     Model Rock("media/rock/Rock07-Base.obj");
     Model Ghoul("media/Ghoul/swampGhoul.obj");
     Model Cloud("media/Cloud/Cloud_Polygon_Blender_1.fbx");
+    Model House("media/House/objHouse.obj");
 
     //Sets the viewport size within the window to match the window size of 1280x720
     glViewport(0, 0, windowWidth, windowHeight);
@@ -190,10 +191,6 @@ int main()
     //position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-
-    //Colours
-    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-   // glEnableVertexAttribArray(1);
 
     glBindVertexArray(0);
 
@@ -231,6 +228,13 @@ int main()
         model = translate(model, vec3(-5.0f, 0.0f, -5.0f));
         SetMatrices(program);
         glDrawElements(GL_TRIANGLES, terrainIndices.size(), GL_UNSIGNED_INT, 0);
+      
+        //Render Crackhouse REALLY NEED TO FIX THE OVERLAPPING ISSUE 
+        model = mat4(1.0f); // Reset to identity matrix
+        model = scale(model, vec3(25.0f, 25.0f, 25.0f));
+        model = translate(model, vec3(0.0f, 0.0f, 0.0f));; // Position as needed
+        SetMatrices(program);
+        House.Draw(program);
 
         //Render my signature
         model = mat4(1.0f); // Reset to identity matrix
@@ -248,7 +252,7 @@ int main()
         Rock.Draw(program);
 
         //Render Cloud (Ainmiated) also need to lower the fuck oout the speed
-        float xOffset = sin(animationTime) * 5.0f; // Move rock left and right
+        float xOffset = sin(animationTime) * 0.5f; // Move rock left and right
         model = mat4(1.0f); // Reset to identity matrix
         model = scale(model, vec3(10.0f, 4.0f, 10.0f)); // Scale up even more
         model = translate(model, vec3(xOffset, 3.0f, -1.5f)); // Shift much further right, keep lower Y
