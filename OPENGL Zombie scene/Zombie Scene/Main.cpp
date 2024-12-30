@@ -50,8 +50,8 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 // Cloud movement variables
-float moveSpeed = 1.0f;  // Speed of movement
-float maxRange = 5.0f;   // Range of movement (left to right)
+float moveSpeed = 1.0f;      // Speed of movement
+float maxRange = 5.0f;       // Range of movement (left to right)
 float animationTime = 0.0f;  // Tracks elapsed time for animation
 
 // Global variables
@@ -162,6 +162,7 @@ int main()
     Model Signature("media/Signature/signature.obj");
     Model Rock("media/rock/Rock07-Base.obj");
     Model Ghoul("media/Ghoul/swampGhoul.obj");
+    Model Cloud("media/Cloud/Cloud_Polygon_Blender_1.fbx");
 
     //Sets the viewport size within the window to match the window size of 1280x720
     glViewport(0, 0, windowWidth, windowHeight);
@@ -205,7 +206,6 @@ int main()
         float currentFrame = static_cast<float>(glfwGetTime());
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
-
         animationTime += deltaTime;  // Increment animation time
 
         //Input
@@ -240,20 +240,23 @@ int main()
         SetMatrices(program);
         Signature.Draw(program);
 
-        // Render animated rock
-        float xOffset = sin(animationTime) * 5.0f; // Move rock left and right
+        // Render rock 
         model = mat4(1.0f); // Reset to identity matrix
         model = scale(model, vec3(0.05f, 0.05f, 0.05f));
-        model = translate(model, vec3(xOffset, -3.0f, -1.5f)); // Apply X offset
+        model = translate(model, vec3(-5.0f, -3.0f, -1.5f));; // Position as needed
         SetMatrices(program);
         Rock.Draw(program);
 
-        //Render the rock
-      //model = mat4(1.0f); // Reset to identity matrix
-      //model = scale(model, vec3(0.05f, 0.05f, 0.05f));
-      //model = translate(model, vec3(-5.0f, -3.0f, -1.5f));; // Position as needed
-      //SetMatrices(program);
-     // Rock.Draw(program);
+        //Render Cloud (Ainmiated) also need to lower the fuck oout the speed
+        float xOffset = sin(animationTime) * 5.0f; // Move rock left and right
+        model = mat4(1.0f); // Reset to identity matrix
+        model = scale(model, vec3(10.0f, 4.0f, 10.0f)); // Scale up even more
+        model = translate(model, vec3(xOffset, 3.0f, -1.5f)); // Shift much further right, keep lower Y
+        SetMatrices(program);
+        Cloud.Draw(program);
+
+        //More clouds to fill out the scene
+
 
         //Render the Ghoul
         model = mat4(1.0f); // Reset to identity matrix
