@@ -144,7 +144,6 @@ int main()
     //Binds OpenGL to window
     glfwMakeContextCurrent(window);
 
-
     //Initialisation of GLEW
     // glewInit();
 
@@ -159,11 +158,11 @@ int main()
     //Loading of shaders
     Shader program("shaders/vertexShader.vert", "shaders/fragmentShader.frag");
     program.use();
+    Model Cloud("media/Cloud/Cloud_Polygon_Blender_1.fbx");
+    Model House("media/House/objHouse.obj");
     Model Signature("media/Signature/signature.obj");
     Model Rock("media/rock/Rock07-Base.obj");
     Model Ghoul("media/Ghoul/swampGhoul.obj");
-    Model Cloud("media/Cloud/Cloud_Polygon_Blender_1.fbx");
-    Model House("media/House/objHouse.obj");
 
     //Sets the viewport size within the window to match the window size of 1280x720
     glViewport(0, 0, windowWidth, windowHeight);
@@ -212,6 +211,8 @@ int main()
         glClearColor(0.25f, 0.0f, 1.0f, 1.0f); //Colour to display on cleared window
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Clears the colour and depth buffer
         glEnable(GL_CULL_FACE);
+        glEnable(GL_DEPTH_TEST);//THIS FIXED THE OVERLAPPING ISSUE
+
 
         //transform (perspective)
         model = mat4(1.0f);
@@ -228,11 +229,28 @@ int main()
         model = translate(model, vec3(-5.0f, 0.0f, -5.0f));
         SetMatrices(program);
         glDrawElements(GL_TRIANGLES, terrainIndices.size(), GL_UNSIGNED_INT, 0);
+
+        //Render Cloud (Ainmiated) also need to lower the fuck oout the speed
+        float xOffset = sin(animationTime) * 0.5f; // Move rock left and right
+        model = mat4(1.0f); // Reset to identity matrix
+        model = scale(model, vec3(10.0f, 4.0f, 10.0f)); // Scale up even more
+        model = translate(model, vec3(xOffset, 3.0f, -1.5f)); // Shift much further right, keep lower Y
+        SetMatrices(program);
+        Cloud.Draw(program);
+
+        //More clouds to fill out the scene
       
+        //Render the Ghoul
+        model = mat4(1.0f); // Reset to identity matrix
+        model = scale(model, vec3(2.0f, 2.0f, 2.0f));; // Scale the zombie model up significantly
+        model = translate(model, vec3(0.0f, 1.0f, -0.5f));; // Position as needed
+        SetMatrices(program);
+        Ghoul.Draw(program);
+
         //Render Crackhouse REALLY NEED TO FIX THE OVERLAPPING ISSUE 
         model = mat4(1.0f); // Reset to identity matrix
         model = scale(model, vec3(25.0f, 25.0f, 25.0f));
-        model = translate(model, vec3(0.0f, 0.0f, 0.0f));; // Position as needed
+        model = translate(model, vec3(0.0f, 0.0f, -0.1f));; // Position as needed
         SetMatrices(program);
         House.Draw(program);
 
@@ -250,27 +268,8 @@ int main()
         model = translate(model, vec3(-5.0f, -3.0f, -1.5f));; // Position as needed
         SetMatrices(program);
         Rock.Draw(program);
-
-        //Render Cloud (Ainmiated) also need to lower the fuck oout the speed
-        float xOffset = sin(animationTime) * 0.5f; // Move rock left and right
-        model = mat4(1.0f); // Reset to identity matrix
-        model = scale(model, vec3(10.0f, 4.0f, 10.0f)); // Scale up even more
-        model = translate(model, vec3(xOffset, 3.0f, -1.5f)); // Shift much further right, keep lower Y
-        SetMatrices(program);
-        Cloud.Draw(program);
-
-        //More clouds to fill out the scene
-
-
-        //Render the Ghoul
-        model = mat4(1.0f); // Reset to identity matrix
-        model = scale(model, vec3(2.0f, 2.0f, 2.0f));; // Scale the zombie model up significantly
-        model = translate(model, vec3(0.0f, 1.0f, -0.5f));; // Position as needed
-        SetMatrices(program);
-        Ghoul.Draw(program);
         glfwSwapBuffers(window);
         glfwPollEvents();
-
     }
 
     //Safely terminates GLFW
