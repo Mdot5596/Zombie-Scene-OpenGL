@@ -208,7 +208,8 @@ int main()
         ProcessUserInput(window); //Takes user input
 
         //Rendering
-        glClearColor(0.25f, 0.0f, 1.0f, 1.0f); //Colour to display on cleared window
+        glClearColor(0.5f, 0.5f, 0.5f, 1.0f); // background colour
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Clears the colour and depth buffer
         glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);//THIS FIXED THE OVERLAPPING ISSUE
