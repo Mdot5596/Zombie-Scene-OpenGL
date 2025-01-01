@@ -32,7 +32,30 @@ To generate terrain, I researched and utilised the following resources:
 ### Animation
 
 # Research-related implementation
-fill this out 
+
+### Audio Research
+For implementing interactive audio playback in my project, I utilised the IrrKlang audio library. To understand how to integrate it effectively, I referred to a tutorial video that demonstrated setting up and controlling audio events within a 3D scene. This helped me implement features like the rain sound effects and a triggered scream when the spacebar is pressed.
+
+**Source:** [“irrKlang Tutorial - How to Add Sound to Your C++ Project” (2021)](https://www.youtube.com/watch?v=PLh79OjVFws)
+
+This tutorial, published within the last five years, provided up-to-date and practical guidance on integrating sound effects in a modern game development context. The video even demonstrates how to add the include and libs into the VS directory.
+
+
+### Animation Research
+
+To implement the cloud animation in my project, I applied transformation techniques to move the cloud model smoothly across the scene. By utilising translation transformations, I was able to control the cloud's position over time, creating a natural left-to-right movement. The following variables were used to manage the animation:
+```cpp
+// Cloud movement variables
+float moveSpeed = 0.5f;      // Speed of movement
+float maxRange = 3.0f;       // Range of movement (left to right)
+float animationTime = 0.0f;  // Tracks elapsed time for animation
+```
+This approach was informed by research into basic transformation techniques in OpenGL, specifically the use of translation matrices to alter an object's position within the scene. Resources such as the tutorial on Basic Transformations in OpenGL provided insights into implementing these transformations effectively.
+
+**Source:** (https://www.geeksforgeeks.org/basic-transformations-opengl/)
+
+This resource, published within the past five years, offered clear guidance on applying translation, rotation, and scaling transformations in OpenGL. 
+
 # Evaluation
 This scene follows my approved pitch: *"A scene with a zombie in the center. The camera/player can move around the scene. The zombie will create noise such as growling, etc. The scene will have dark lighting (moonlight) and SFX such as rain and lightning. The zombie will be in a setting like being trapped in debris or something similar."*
 
