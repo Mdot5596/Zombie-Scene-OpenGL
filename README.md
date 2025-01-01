@@ -1,6 +1,8 @@
 # Morgan Hodge - Zombie Scene -  Project Documentation
 
+ TODO : Detail how to run the executable and required libraries to run it
 
+ # Youtube Walkthrough - 
 
 # Tools Used
 
