@@ -8,7 +8,14 @@
 
 ### Libraries Used
 - [OpenGL](https://www.opengl.org/)
+- [GLFW](https://www.glfw.org/download.html)
+- [GLEW](https://glew.sourceforge.net/)
 - [irrKlang](https://www.ambiera.com/irrklang/)
+- [cmake](https://cmake.org/download/)
+- [assimp](https://github.com/assimp/assimp/blob/master/Build.md)
+- [FastNoiseLite](https://github.com/Auburn/FastNoiseLite/tree/master)
+- [Glad](https://glad.dav1d.de/)
+- [stb image](https://github.com/nothings/stb/blob/master/stb_image.h)
 - 
 ### Models
 - **Website:** [TurboSquid](https://www.turbosquid.com/)
@@ -30,6 +37,7 @@ To generate terrain, I researched and utilised the following resources:
 - Lab Session 8 (on GitHub)
 
 ### Animation
+NOT SURE IF I EVEN NEED THIS BIT
 
 # Research-related implementation
 
