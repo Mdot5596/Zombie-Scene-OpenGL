@@ -65,6 +65,10 @@ GLuint terrainVAO2, terrainVBO2, terrainEBO2;
 std::vector<float> terrainVertices2;
 std::vector<unsigned int> terrainIndices2;
 
+//Third terrain
+GLuint terrainVAO3, terrainVBO3, terrainEBO3;
+std::vector<float> terrainVertices3;
+std::vector<unsigned int> terrainIndices3;
 
 //VAO vertex attribute positions in correspondence to vertex attribute type
 enum VAO_IDs { Triangles, Indices, Colours, Textures, NumVAOs = 2 };
@@ -78,7 +82,7 @@ GLuint Buffers[NumBuffers];
 // Define terrain type flags
 const int TERRAIN_1 = 1;
 const int TERRAIN_2 = 2;
-
+const int TERRAIN_3 = 3;
 
 void GenerateTerrain(std::vector<float>& vertices, std::vector<unsigned int>& indices, int width, int height, float scale,int terrainType) {
     FastNoiseLite noise;
@@ -91,6 +95,12 @@ void GenerateTerrain(std::vector<float>& vertices, std::vector<unsigned int>& in
     {
         noise.SetFrequency(0.3f);        // Increase frequency for more frequent bumps
         amplitude = 15.0f;              // Increase amplitude for taller bumps
+    }
+
+    if (terrainType == TERRAIN_3)
+    {
+        noise.SetFrequency(0.1f);        // Increase frequency for more frequent bumps
+        amplitude = 125.0f;              // Increase amplitude for taller bumps
     }
 
         // Generate vertices with height variation
@@ -226,7 +236,24 @@ int main()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-  //  glBindVertexArray(0);
+    //Generate terrain 3
+    GenerateTerrain(terrainVertices3, terrainIndices3, 500, 500, 0.1f, TERRAIN_3);
+
+    // Setup VAO and VBO for the second terrain
+    glGenVertexArrays(1, &terrainVAO3);
+    glGenBuffers(1, &terrainVBO3);
+    glGenBuffers(1, &terrainEBO3);
+
+    glBindVertexArray(terrainVAO3);
+    glBindBuffer(GL_ARRAY_BUFFER, terrainVBO3);
+    glBufferData(GL_ARRAY_BUFFER, terrainVertices3.size() * sizeof(float), terrainVertices3.data(), GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainEBO3);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, terrainIndices3.size() * sizeof(unsigned int), terrainIndices3.data(), GL_STATIC_DRAW);
+
+    // Position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
     //Terrain End
 
 
@@ -270,6 +297,14 @@ int main()
         SetMatrices(program);
         glDrawElements(GL_TRIANGLES, terrainIndices2.size(), GL_UNSIGNED_INT, 0);
 
+        //Render the third terrain
+        glBindVertexArray(terrainVAO3);
+        model = mat4(1.0f);
+        model = scale(model, vec3(0.3f, 0.1f, 0.5f)); // Smaller scale for the second terrain
+        model = translate(model, vec3(-120.0f, -5.0f, 60.0f)); // New position to the left of the first terrain
+        SetMatrices(program);
+        glDrawElements(GL_TRIANGLES, terrainIndices3.size(), GL_UNSIGNED_INT, 0);
+        
         //Render the Ghoul
         model = mat4(1.0f); 
         model = scale(model, vec3(1.5f, 1.5f, 1.5f));; 
