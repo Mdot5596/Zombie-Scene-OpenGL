@@ -6,7 +6,7 @@
 
 # Tools Used
 
-### Libraries Used
+### Libraries/Dependencies Used
 - [OpenGL](https://www.opengl.org/)
 - [GLFW](https://www.glfw.org/download.html)
 - [GLEW](https://glew.sourceforge.net/)
