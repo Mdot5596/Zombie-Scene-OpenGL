@@ -1,9 +1,10 @@
-//one im putting work on
 #include <iostream>
 #include "GLAD/glad.h"
+
 //GLEW
 //#include <GL/glew.h>
 //#include "LoadShaders.h"
+
 //GLM
 #include "glm/glm/ext/vector_float3.hpp"
 #include "glm/glm/ext/matrix_transform.hpp"
@@ -49,10 +50,10 @@ float cameraLastYPos = 600.0f / 2.0f;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-// Cloud movement variables
-float moveSpeed = 0.5f;      // Speed of movement
+//Cloud movement variables
+float moveSpeed = 0.5f;      
 float maxRange = 3.0f;       // Range of movement (left to right)
-float animationTime = 0.0f;  // Tracks elapsed time for animation
+float animationTime = 0.0f;  
 
 // Global variables
 GLuint terrainVAO, terrainVBO, terrainEBO;
@@ -73,7 +74,7 @@ GLuint Buffers[NumBuffers];
 void GenerateTerrain(std::vector<float>& vertices, std::vector<unsigned int>& indices, int width, int height, float scale) {
     FastNoiseLite noise;
     noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin); // Set Perlin noise
-    noise.SetFrequency(0.5f);                            // Increase frequency for more lumps
+    noise.SetFrequency(0.3f);                            // Increase frequency for more lumps
     float amplitude = 0.4f;                              // Increase amplitude for higher hills
 
     // Generate vertices with height variation
@@ -83,10 +84,11 @@ void GenerateTerrain(std::vector<float>& vertices, std::vector<unsigned int>& in
             vertices.push_back(x * scale);                // X position
             vertices.push_back(heightValue * amplitude);  // Y position (height)
             vertices.push_back(z * scale);                // Z position
+
             // color attributes 
-           // vertices.push_back(0.1f); // R
+            // vertices.push_back(0.1f); // R
             //vertices.push_back(0.8f); // G
-           // vertices.push_back(0.1f); // B
+            // vertices.push_back(0.1f); // B
 
         }
     }
@@ -126,8 +128,8 @@ int main()
 
     //Initialisation of GLFW
     glfwInit();
-    //Initialisation of GLFWwindow
     GLFWwindow* window = glfwCreateWindow(windowWidth, windowHeight, "Zombie Scene", NULL, NULL);
+
 
     //Checks if window has been successfully instantiated
     if (window == NULL)
@@ -136,17 +138,13 @@ int main()
         glfwTerminate();
         return -1;
     }
-
-    //cursor auutomaticly binds to window and hides curoso
+    //Bind Cursor to window
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-
     //Binds OpenGL to window
     glfwMakeContextCurrent(window);
 
     //Initialisation of GLEW
     // glewInit();
-
 
     //Initialisation of GLAD
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -164,12 +162,8 @@ int main()
     Model Rock("media/rock/Rock07-Base.obj");
     Model Ghoul("media/Ghoul/swampGhoul.obj");
 
-    //Sets the viewport size within the window to match the window size of 1280x720
     glViewport(0, 0, windowWidth, windowHeight);
-
-    //Sets the framebuffer_size_callback() function as the callback for the window resizing event
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    //mousecallback
     glfwSetCursorPosCallback(window, mouse_callback);
 
     // Generate terrain
@@ -203,15 +197,13 @@ int main()
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
         animationTime += deltaTime;  // Increment animation time
-
-        //Input
         ProcessUserInput(window); //Takes user input
 
         //Rendering
-        glClearColor(0.05f, 0.05f, 0.05f, 1.0f); // Very dark grey background
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Clears the colour and depth buffer
+        glClearColor(0.05f, 0.05f, 0.05f, 1.0f); //Set Background colour
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
         glEnable(GL_CULL_FACE);
-        glEnable(GL_DEPTH_TEST);//THIS FIXED THE OVERLAPPING ISSUE
+        glEnable(GL_DEPTH_TEST); //Renders the closest object first (fixes the overlapping issue)
 
 
         //transform (perspective)
@@ -231,45 +223,47 @@ int main()
         glDrawElements(GL_TRIANGLES, terrainIndices.size(), GL_UNSIGNED_INT, 0);
 
         //Render the Ghoul
-        model = mat4(1.0f); // Reset to identity matrix
-        model = scale(model, vec3(1.5f, 1.5f, 1.5f));; // Scale the zombie model up significantly
-        model = translate(model, vec3(0.0f, 1.6f, 0.3f));; // Position as needed
+        model = mat4(1.0f); 
+        model = scale(model, vec3(1.5f, 1.5f, 1.5f));; 
+        model = translate(model, vec3(0.0f, 1.6f, 0.3f));; 
         SetMatrices(program);
         Ghoul.Draw(program);
 
-        //Render Cloud (Ainmiated) also need to lower the fuck oout the speed
-        float xOffset = sin(animationTime) * 0.2f; // Move rock left and right
-        model = mat4(1.0f); // Reset to identity matrix
-        model = scale(model, vec3(10.0f, 4.0f, 10.0f)); // Scale up even more
-        model = translate(model, vec3(xOffset, 3.0f, -1.5f)); // Shift much further right, keep lower Y
-        SetMatrices(program);
-        Cloud.Draw(program);
-        //More clouds to fill out the scene
-        model = mat4(1.0f); // Reset to identity matrix
-        model = scale(model, vec3(6.0f, 1.0f, 6.0f)); // Scale up even more
-        model = translate(model, vec3(xOffset, 8.0f, 0)); // Shift much further right, keep lower Y
-        SetMatrices(program);
-        Cloud.Draw(program);
-
-        //Render Crackhouse REALLY NEED TO FIX THE OVERLAPPING ISSUE 
-        model = mat4(1.0f); // Reset to identity matrix
-        model = scale(model, vec3(25.0f, 25.0f, 25.0f));
-        model = translate(model, vec3(0.0f, 0.01f, -0.1f));; // Position as needed
-        SetMatrices(program);
-        House.Draw(program);
-
         //Render my signature
-        model = mat4(1.0f); // Reset to identity matrix
+        model = mat4(1.0f); 
         model = scale(model, vec3(0.002f, 0.002f, 0.002f));
-        model = translate(model, vec3(-3500.0f, 5.0f, 5.0f));
-        model = rotate(model, radians(90.0f), vec3(1.0f, 0.0f, 0.0f)); // Rotate 90 degrees around the X-axis so the sigatures stood up
+        model = translate(model, vec3(-2.0f, 9.0f, 5.0f)); 
+        model = rotate(model, radians(90.0f), vec3(1.0f, 0.0f, 0.0f)); 
         SetMatrices(program);
         Signature.Draw(program);
 
+        //Render Cloud (Ainmiated) 
+        float xOffset = sin(animationTime) * 0.2f; 
+        model = mat4(1.0f); 
+        model = scale(model, vec3(10.0f, 4.0f, 10.0f)); 
+        model = translate(model, vec3(xOffset, 3.0f, -1.5f)); 
+        SetMatrices(program);
+        Cloud.Draw(program);
+
+        //More clouds to fill out the scene
+        model = mat4(1.0f); 
+        model = scale(model, vec3(6.0f, 1.0f, 6.0f)); 
+        model = translate(model, vec3(xOffset, 8.0f, 0)); 
+        SetMatrices(program);
+        Cloud.Draw(program);
+        //Maybe another cloud
+
+        //Render Building
+        model = mat4(1.0f); 
+        model = scale(model, vec3(25.0f, 25.0f, 25.0f));
+        model = translate(model, vec3(0.0f, 0.01f, -0.1f));; 
+        SetMatrices(program);
+        House.Draw(program);
+
         // Render rock 
-        model = mat4(1.0f); // Reset to identity matrix
+        model = mat4(1.0f); 
         model = scale(model, vec3(0.05f, 0.05f, 0.05f));
-        model = translate(model, vec3(-5.0f, 8.0f, -1.5f));; // Position as needed
+        model = translate(model, vec3(-5.0f, 8.0f, -1.5f));; 
         SetMatrices(program);
         Rock.Draw(program);
 
@@ -286,7 +280,7 @@ int main()
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    //Resizes window based on contemporary width & height values
+    //Resises window based on contemporary width & height values
     glViewport(0, 0, width, height);
 }
 
@@ -340,7 +334,7 @@ void ProcessUserInput(GLFWwindow* WindowIn)
     }
 }
 
-//mousemovement
+//mouse movement
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
     if (mouseFirstEntry) {
