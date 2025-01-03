@@ -55,10 +55,16 @@ float moveSpeed = 0.5f;
 float maxRange = 3.0f;       // Range of movement (left to right)
 float animationTime = 0.0f;  
 
-// Global variables
+// Global variables 1st terrain
 GLuint terrainVAO, terrainVBO, terrainEBO;
 std::vector<float> terrainVertices;
 std::vector<unsigned int> terrainIndices;
+
+//Second terrain
+GLuint terrainVAO2, terrainVBO2, terrainEBO2;
+std::vector<float> terrainVertices2;
+std::vector<unsigned int> terrainIndices2;
+
 
 //VAO vertex attribute positions in correspondence to vertex attribute type
 enum VAO_IDs { Triangles, Indices, Colours, Textures, NumVAOs = 2 };
@@ -85,9 +91,9 @@ void GenerateTerrain(std::vector<float>& vertices, std::vector<unsigned int>& in
             vertices.push_back(heightValue * amplitude);  // Y position (height)
             vertices.push_back(z * scale);                // Z position
 
-            // color attributes 
-            // vertices.push_back(0.1f); // R
-            //vertices.push_back(0.8f); // G
+           // color attributes 
+           // vertices.push_back(0.1f); // R
+           // vertices.push_back(0.8f); // G
             // vertices.push_back(0.1f); // B
 
         }
@@ -187,6 +193,26 @@ int main()
 
     glBindVertexArray(0);
 
+    //Generate terrain 2
+    GenerateTerrain(terrainVertices2, terrainIndices2, 500, 500, 0.1f);
+
+    // Setup VAO and VBO for the second terrain
+    glGenVertexArrays(1, &terrainVAO2);
+    glGenBuffers(1, &terrainVBO2);
+    glGenBuffers(1, &terrainEBO2);
+
+    glBindVertexArray(terrainVAO2);
+    glBindBuffer(GL_ARRAY_BUFFER, terrainVBO2);
+    glBufferData(GL_ARRAY_BUFFER, terrainVertices2.size() * sizeof(float), terrainVertices2.data(), GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainEBO2);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, terrainIndices2.size() * sizeof(unsigned int), terrainIndices2.data(), GL_STATIC_DRAW);
+
+    // Position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+  //  glBindVertexArray(0);
     //Terrain End
 
 
@@ -217,10 +243,18 @@ int main()
         // Render terrain
         glBindVertexArray(terrainVAO);
         model = mat4(1.0f);
-        model = scale(model, vec3(1.5f, 1.5f, 1.5f));
-        model = translate(model, vec3(-5.0f, 0.0f, -5.0f));
+        model = scale(model, vec3(0.7f, 0.7f, 0.7f));
+        model = translate(model, vec3(-17.0f, 0.0f, -5.0f));
         SetMatrices(program);
         glDrawElements(GL_TRIANGLES, terrainIndices.size(), GL_UNSIGNED_INT, 0);
+
+        // Render the second terrain
+        glBindVertexArray(terrainVAO2);
+        model = mat4(1.0f);
+        model = scale(model, vec3(0.3f, 0.1f, 0.1f)); // Smaller scale for the second terrain
+        model = translate(model, vec3(-100.0f, -3.0f, -5.0f)); // New position to the left of the first terrain
+        SetMatrices(program);
+        glDrawElements(GL_TRIANGLES, terrainIndices2.size(), GL_UNSIGNED_INT, 0);
 
         //Render the Ghoul
         model = mat4(1.0f); 
