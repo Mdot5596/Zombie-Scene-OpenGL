@@ -75,50 +75,61 @@ GLuint VAOs[NumVAOs];
 enum Buffer_IDs { ArrayBuffer, NumBuffers = 4 };
 //Buffer objects
 GLuint Buffers[NumBuffers];
+// Define terrain type flags
+const int TERRAIN_1 = 1;
+const int TERRAIN_2 = 2;
 
 
-void GenerateTerrain(std::vector<float>& vertices, std::vector<unsigned int>& indices, int width, int height, float scale) {
+void GenerateTerrain(std::vector<float>& vertices, std::vector<unsigned int>& indices, int width, int height, float scale,int terrainType) {
     FastNoiseLite noise;
     noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin); // Set Perlin noise
     noise.SetFrequency(0.3f);                            // Increase frequency for more lumps
     float amplitude = 0.4f;                              // Increase amplitude for higher hills
 
-    // Generate vertices with height variation
-    for (int z = 0; z < height; ++z) {
-        for (int x = 0; x < width; ++x) {
-            float heightValue = noise.GetNoise((float)x * scale, (float)z * scale);
-            vertices.push_back(x * scale);                // X position
-            vertices.push_back(heightValue * amplitude);  // Y position (height)
-            vertices.push_back(z * scale);                // Z position
 
-           // color attributes 
-           // vertices.push_back(0.1f); // R
-           // vertices.push_back(0.8f); // G
-            // vertices.push_back(0.1f); // B
+    if (terrainType == TERRAIN_2)
+    {
+        noise.SetFrequency(0.3f);        // Increase frequency for more frequent bumps
+        amplitude = 15.0f;              // Increase amplitude for taller bumps
+    }
 
+        // Generate vertices with height variation
+        for (int z = 0; z < height; ++z) {
+            for (int x = 0; x < width; ++x) {
+                float heightValue = noise.GetNoise((float)x * scale, (float)z * scale);
+                vertices.push_back(x * scale);                // X position
+                vertices.push_back(heightValue * amplitude);  // Y position (height)
+                vertices.push_back(z * scale);                // Z position
+
+                // color attributes 
+                // vertices.push_back(0.1f); // R
+                // vertices.push_back(0.8f); // G
+                 // vertices.push_back(0.1f); // B
+
+            }
+        }
+
+        // Generate indices for triangle strips
+        for (int z = 0; z < height - 1; ++z) {
+            for (int x = 0; x < width - 1; ++x) {
+                int topLeft = z * width + x;
+                int topRight = topLeft + 1;
+                int bottomLeft = topLeft + width;
+                int bottomRight = bottomLeft + 1;
+
+                // First triangle
+                indices.push_back(topLeft);
+                indices.push_back(bottomLeft);
+                indices.push_back(topRight);
+
+                // Second triangle
+                indices.push_back(topRight);
+                indices.push_back(bottomLeft);
+                indices.push_back(bottomRight);
+            }
         }
     }
 
-    // Generate indices for triangle strips
-    for (int z = 0; z < height - 1; ++z) {
-        for (int x = 0; x < width - 1; ++x) {
-            int topLeft = z * width + x;
-            int topRight = topLeft + 1;
-            int bottomLeft = topLeft + width;
-            int bottomRight = bottomLeft + 1;
-
-            // First triangle
-            indices.push_back(topLeft);
-            indices.push_back(bottomLeft);
-            indices.push_back(topRight);
-
-            // Second triangle
-            indices.push_back(topRight);
-            indices.push_back(bottomLeft);
-            indices.push_back(bottomRight);
-        }
-    }
-}
 
 int main()
 {
@@ -173,7 +184,10 @@ int main()
     glfwSetCursorPosCallback(window, mouse_callback);
 
     // Generate terrain
-    GenerateTerrain(terrainVertices, terrainIndices, 100, 100, 0.4f);
+    // Generate terrain 1 
+    GenerateTerrain(terrainVertices, terrainIndices, 100, 100, 0.4f, TERRAIN_1);
+
+
 
     // Setup VAO and VBO
     glGenVertexArrays(1, &terrainVAO);
@@ -194,7 +208,7 @@ int main()
     glBindVertexArray(0);
 
     //Generate terrain 2
-    GenerateTerrain(terrainVertices2, terrainIndices2, 500, 500, 0.1f);
+    GenerateTerrain(terrainVertices2, terrainIndices2, 500, 500, 0.1f, TERRAIN_2);
 
     // Setup VAO and VBO for the second terrain
     glGenVertexArrays(1, &terrainVAO2);
@@ -251,8 +265,8 @@ int main()
         // Render the second terrain
         glBindVertexArray(terrainVAO2);
         model = mat4(1.0f);
-        model = scale(model, vec3(0.3f, 0.1f, 0.1f)); // Smaller scale for the second terrain
-        model = translate(model, vec3(-100.0f, -3.0f, -5.0f)); // New position to the left of the first terrain
+        model = scale(model, vec3(0.3f, 0.1f, 0.5f)); // Smaller scale for the second terrain
+        model = translate(model, vec3(-120.0f, -3.0f, -5.0f)); // New position to the left of the first terrain
         SetMatrices(program);
         glDrawElements(GL_TRIANGLES, terrainIndices2.size(), GL_UNSIGNED_INT, 0);
 
