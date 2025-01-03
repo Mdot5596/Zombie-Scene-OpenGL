@@ -208,8 +208,7 @@ int main()
         ProcessUserInput(window); //Takes user input
 
         //Rendering
-        glClearColor(0.5f, 0.5f, 0.5f, 1.0f); // background colour
-
+        glClearColor(0.05f, 0.05f, 0.05f, 1.0f); // Very dark grey background
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Clears the colour and depth buffer
         glEnable(GL_CULL_FACE);
         glEnable(GL_DEPTH_TEST);//THIS FIXED THE OVERLAPPING ISSUE
@@ -231,27 +230,31 @@ int main()
         SetMatrices(program);
         glDrawElements(GL_TRIANGLES, terrainIndices.size(), GL_UNSIGNED_INT, 0);
 
+        //Render the Ghoul
+        model = mat4(1.0f); // Reset to identity matrix
+        model = scale(model, vec3(1.5f, 1.5f, 1.5f));; // Scale the zombie model up significantly
+        model = translate(model, vec3(0.0f, 1.6f, 0.3f));; // Position as needed
+        SetMatrices(program);
+        Ghoul.Draw(program);
+
         //Render Cloud (Ainmiated) also need to lower the fuck oout the speed
-        float xOffset = sin(animationTime) * 0.5f; // Move rock left and right
+        float xOffset = sin(animationTime) * 0.2f; // Move rock left and right
         model = mat4(1.0f); // Reset to identity matrix
         model = scale(model, vec3(10.0f, 4.0f, 10.0f)); // Scale up even more
         model = translate(model, vec3(xOffset, 3.0f, -1.5f)); // Shift much further right, keep lower Y
         SetMatrices(program);
         Cloud.Draw(program);
-
         //More clouds to fill out the scene
-      
-        //Render the Ghoul
         model = mat4(1.0f); // Reset to identity matrix
-        model = scale(model, vec3(2.0f, 2.0f, 2.0f));; // Scale the zombie model up significantly
-        model = translate(model, vec3(0.0f, 1.0f, -0.5f));; // Position as needed
+        model = scale(model, vec3(6.0f, 1.0f, 6.0f)); // Scale up even more
+        model = translate(model, vec3(xOffset, 8.0f, 0)); // Shift much further right, keep lower Y
         SetMatrices(program);
-        Ghoul.Draw(program);
+        Cloud.Draw(program);
 
         //Render Crackhouse REALLY NEED TO FIX THE OVERLAPPING ISSUE 
         model = mat4(1.0f); // Reset to identity matrix
         model = scale(model, vec3(25.0f, 25.0f, 25.0f));
-        model = translate(model, vec3(0.0f, 0.0f, -0.1f));; // Position as needed
+        model = translate(model, vec3(0.0f, 0.01f, -0.1f));; // Position as needed
         SetMatrices(program);
         House.Draw(program);
 
@@ -266,11 +269,13 @@ int main()
         // Render rock 
         model = mat4(1.0f); // Reset to identity matrix
         model = scale(model, vec3(0.05f, 0.05f, 0.05f));
-        model = translate(model, vec3(-5.0f, -3.0f, -1.5f));; // Position as needed
+        model = translate(model, vec3(-5.0f, 8.0f, -1.5f));; // Position as needed
         SetMatrices(program);
         Rock.Draw(program);
+
         glfwSwapBuffers(window);
         glfwPollEvents();
+
     }
 
     //Safely terminates GLFW
