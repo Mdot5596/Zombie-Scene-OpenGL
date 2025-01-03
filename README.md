@@ -1,8 +1,16 @@
 # Morgan Hodge - Zombie Scene -  Project Documentation
 
- TODO : Detail how to run the executable and required libraries to run it
+## How to run the scene
+### In order to run the exe:
+- Unzip the "Zombie Scene exe" file
+- Create a folder at the location C:\Users\Public\OpenGL
+- Inside this folder create 4 subfolders: include and lib (this is where you will place the OpenGL includes and libs)
+- assimp (this is where you will put the contents from the Assimp download)
+-  audio (this is where you will download IrrKlang and store the audio files for the scene)
+- You can find links to all the downloads bellow
+- Once that is set up, you can double-click the exe, and it should run without errors
 
- # Youtube Walkthrough - 
+# Youtube Walkthrough - https://youtu.be/z9JmAVT52C4
 
 # Tools Used
 
@@ -36,8 +44,6 @@ To generate terrain, I researched and utilised the following resources:
 - [Perlin Noise and FastNoiseLite](https://glusoft.com/godot-tutorials/make-terrain-perlin-noise-FastNoiseLite/)
 - Lab Session 8 (on GitHub)
 
-### Animation
-NOT SURE IF I EVEN NEED THIS BIT
 
 # Research-related implementation
 
