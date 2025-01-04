@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Uni\3016\AS2\GITHUB DESKTOP v\Zombie-Scene-OpenGL\OPENGL Zombie scene\Zombie Scene\Audio\includes;C:\Users\MHodg\Assimp\assimp\binaries\include;C:\Users\MHodg\Assimp\assimp\include;C:\Users\MHodg\OpenGL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Uni\3016\AS2\GITHUB DESKTOP v\Zombie-Scene-OpenGL\OPENGL Zombie scene\Zombie Scene\Audio\lib;C:\Users\MHodg\Assimp\assimp\binaries\lib\Release;C:\Users\MHodg\OpenGL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Public\OpenGL\Audio\includes;C:\Users\Public\OpenGL\assimp\binaries\include;C:\Users\Public\OpenGL\assimp\include;C:\Users\Public\OpenGL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Public\OpenGL\Audio\lib;C:\Users\Public\OpenGL\assimp\binaries\lib\Release;C:\Users\Public\OpenGL\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -125,7 +125,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
