@@ -6,9 +6,9 @@
 //#include "LoadShaders.h"
 
 //GLM
-#include "glm/glm/ext/vector_float3.hpp"
-#include "glm/glm/ext/matrix_transform.hpp"
-#include "glm/glm/gtc/type_ptr.hpp"
+#include "glm/ext/vector_float3.hpp"
+#include "glm/ext/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
 
 //Assimp
 #include <assimp/Importer.hpp>
